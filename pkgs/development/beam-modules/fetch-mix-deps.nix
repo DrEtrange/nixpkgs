@@ -9,6 +9,7 @@
 , debug ? false
 , meta ? { }
 , patches ? []
+, nativeBuildInputs ? []
 , elixir ? inputs.elixir
 , hex ? inputs.hex.override { inherit elixir; }
 , ...
@@ -21,7 +22,7 @@ let
     else { outputHashAlgo = "sha256"; outputHash = lib.fakeSha256; };
 in
 stdenvNoCC.mkDerivation (attrs // {
-  nativeBuildInputs = [ elixir hex cacert git ];
+  nativeBuildInputs = nativeBuildInputs ++ [ elixir hex cacert git ];
 
   MIX_ENV = mixEnv;
   MIX_DEBUG = if debug then 1 else 0;
